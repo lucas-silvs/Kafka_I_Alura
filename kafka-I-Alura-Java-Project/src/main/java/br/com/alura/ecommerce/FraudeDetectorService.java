@@ -13,13 +13,13 @@ import java.util.Properties;
 public class FraudeDetectorService {
     public static void main(String[] args) {
         var fraudeDetectorService = new FraudeDetectorService();
-        var kafkaService = new KafkaService(FraudeDetectorService.class.getSimpleName(),"ECOMMERCE_NOVO_PEDIDO", fraudeDetectorService::parse);
+        var kafkaService = new KafkaService<Order>(FraudeDetectorService.class.getSimpleName(),"ECOMMERCE_NOVO_PEDIDO", fraudeDetectorService::parse,Order.class, Map.of());
         kafkaService.run();
     }
 
 
 
-    private  void parse(ConsumerRecord<String,String> record){
+    private  void parse(ConsumerRecord<String,Order> record){
         System.out.println("\n");
         System.out.println("processando pedidos, necessário criar validação de fraude");
         System.out.println("Chave: " + record.key());
